@@ -72,4 +72,57 @@ describe "Sueldo Pepe" {
 		assert.equals(300, pepe.extraPresentismo())
 
 	}
+
+	test "bono prsentismo demagogico" {
+		pepe.bonoPresentismo(demagogico)
+		pepe.categoria(gerente)
+		assert.equals(500, pepe.extraPresentismo())
+
+		pepe.categoria(cadete)
+		assert.equals(300, pepe.extraPresentismo())
+
+	}
+	
+ 	test "2. Pepe es gerente, con bono resultado por porcentaje, bono por presentismo nulo." {
+		pepe.categoria(gerente)
+		pepe.bonoResultado(porcentaje)
+		pepe.bonoPresentismo(presentismoNulo)
+		assert.equals(16500, pepe.sueldo())
+	}
+
+	test "3. Pepe es cadete, con bono resultado por porcentaje, bono por presentismo normal, nunca faltó." {
+		pepe.categoria(cadete)  
+		pepe.bonoResultado(porcentaje)
+		pepe.bonoPresentismo(normal)
+		pepe.faltas(0)		
+		assert.equals(24000, pepe.sueldo())
+	}
+
+	test "4. Pepe es cadete, con bono resultado por porcentaje, bono presentismo normal, faltó 1 día." {
+		pepe.categoria(cadete)  
+		pepe.bonoResultado(porcentaje)
+		pepe.bonoPresentismo(normal)
+		pepe.faltas(1)
+		assert.equals(23000, pepe.sueldo())
+	}
+}
+
+
+//BONUS 
+describe "Bonus" {
+  test "1. La categoria base de medio tiempo es cadete" {
+
+  }
+
+  test "2. Pepe tiene categoría medio tiempo, bono resultado por porcentaje, bono presentismo demagógico, faltó 1 día" {
+
+  }
+
+  test "3. Roque tiene bono por resultados monto fijo" {
+
+  }
+
+  test "4. Ernesto tiene como compañero a Pepe, y bono por porcentaje de ajuste" {
+	
+  }
 }
