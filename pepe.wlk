@@ -127,3 +127,102 @@ object demagogico {
         return if (empleado.neto() < 18000) 500 else 300
     }
 }
+
+//BONUS 
+object sofia {
+    var categoria = cadete
+    var bonoResultado = resultadoNulo
+    var bonoPresentismo = presentismoNulo
+    var faltas = 0
+
+    method categoria(_categoria) {
+        categoria = _categoria
+    }
+
+    method bonoResultado(_bonoResultado) {
+        bonoResultado = _bonoResultado
+    }
+
+    method bonoPresentismo(_bonoPresentismo) {
+        bonoPresentismo = _bonoPresentismo
+    }
+
+    method faltas(_faltas) {
+        faltas = _faltas
+    }
+
+    method faltas() {
+        return faltas
+    }
+
+    method sueldo() {
+        return self.neto() * 1.3 + self.extraResultado() + self.extraPresentismo() 
+    }
+
+    method neto() {
+        return categoria.neto()
+    }
+
+    method extraResultado() {
+        return bonoResultado.valor(self)
+    }
+
+    method extraPresentismo() {
+        return bonoPresentismo.valor(self)
+    }
+}
+
+object vendedor {
+    method neto() {
+        return 16000
+    }
+}
+
+object medioTiempo {
+    method categoriaBase(categoria) {
+        return categoria.neto() / 2
+    }
+}
+
+object roque {
+    const neto = 28000
+    var bonoResultado = resultadoNulo
+
+	method bonoResultado(_bonoResultado) {
+        bonoResultado = _bonoResultado
+    }
+
+    method sueldo() {
+        return neto + self.extraResultado() + 9000
+    }
+
+    method extraResultado() {
+        return bonoResultado.valor(self)
+    }
+}
+
+object ernesto {
+    var companiero = pepe
+    var bonoPresentismo = presentismoNulo
+    const property faltas = 0
+
+    method companiero(_companiero) {
+        companiero = _companiero
+    }
+
+    method neto() {
+      return companiero.neto()
+    }
+
+    method sueldo() {
+        return self.neto() + self.extraPresentismo()
+    }
+
+    method bonoPresentismo(_bonoPresentismo) {
+        bonoPresentismo = _bonoPresentismo
+    }
+
+    method extraPresentismo() {
+        return bonoPresentismo.valor(self)
+    }
+}
