@@ -2,69 +2,68 @@ import pepe.*
 
 describe "Sueldo Pepe" {
 	
-	test "Pepe cadete, con bono resultado de monto fijo, y bono presentismo normal. faltó 3 días" {
+
+	test "Pepe cadete, con bono resultado de monto fijo, y bono presentismo normal. Faltó 3 dias" {
 
 		pepe.categoria(cadete) // opción un poco más mala: pepe.cadete() 
-
-		pepe.bonoResultado(fijo) 
+		pepe.bonoResultado(fijo)
 		pepe.bonoPresentismo(normal)
 		pepe.faltas(3)
 
 		assert.equals(20800, pepe.sueldo())
 	}
 
-	test "neto " {
+	test "neto" {
 		pepe.categoria(cadete)
 		assert.equals(20000, pepe.neto())
 		pepe.categoria(gerente)
 		assert.equals(15000, pepe.neto())
 	}
 
-	test "bonos resultados" {
+	test "bonos resultdos" {
 		pepe.categoria(gerente)
 
 		pepe.bonoResultado(fijo)
-		assert.equals(800 , pepe.extraResultado())
+		assert.equals(800, pepe.extraResultado())
 
 		pepe.bonoResultado(resultadoNulo)
-		assert.equals(0 , pepe.extraResultado())
+		assert.equals(0, pepe.extraResultado())
 
 		pepe.bonoResultado(porcentaje)
-		assert.equals(1500 , pepe.extraResultado())
+		assert.equals(1500, pepe.extraResultado())
 
 		pepe.categoria(cadete)
-		assert.equals(2000 , pepe.extraResultado())
-
+		assert.equals(2000, pepe.extraResultado())
 	}
 
-	test "bono presentismo Nulo" {
+	test "bonos presentismo Nulo" {
 		
 		pepe.bonoPresentismo(presentismoNulo)
 		assert.equals(0, pepe.extraPresentismo())
 	}
 
 	test "bono presentismo normal" {
+		
 		pepe.bonoPresentismo(normal)
-		pepe.faltas(0) 
+		pepe.faltas(0)
 		assert.equals(2000, pepe.extraPresentismo())
 
-		pepe.faltas(1) 
+		pepe.faltas(1)
 		assert.equals(1000, pepe.extraPresentismo())
 
-		pepe.faltas(2) 
+		pepe.faltas(2)
 		assert.equals(0, pepe.extraPresentismo())
 	}
 
-	test "bono presentismo ajuste" {
-
+	test "bono presentismo ajuste"{
 		pepe.bonoPresentismo(ajuste)
-		pepe.faltas(0) 
+		pepe.faltas(0)
 		assert.equals(100, pepe.extraPresentismo())
 		pepe.faltas(1) 
 		assert.equals(0, pepe.extraPresentismo())
 	}
 
-	test "bono presentismo demagogico" {
+	test "bono prsentismo demagogico" {
 		pepe.bonoPresentismo(demagogico)
 		pepe.categoria(gerente)
 		assert.equals(500, pepe.extraPresentismo())
@@ -73,5 +72,4 @@ describe "Sueldo Pepe" {
 		assert.equals(300, pepe.extraPresentismo())
 
 	}
-	
 }
