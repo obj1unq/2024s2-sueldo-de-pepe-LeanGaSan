@@ -1,21 +1,19 @@
 object pepe {
-	
+    
     var categoria = cadete
     var bonoResultado = resultadoNulo
     var bonoPresentismo = presentismoNulo
     var faltas = 0
-
     //var neto -> esta variable está mal, es para precalcular!
 
-
     method categoria(_categoria) {
-        categoria = _categoria 
-        //neto = _categoria.neto() -> Esto sería un precálculo y está mal porque el neto podría llegar a variar, ya que pepe no puede tomar decisión sobre si el neto de la categoria puede variar o no. 
+        categoria = _categoria
+        // neto = _categoria() -> Esto es precálculo.  
     }
 
     method bonoResultado(_bonoResultado) {
-        bonoResultado = _bonoResultado 
-    } 
+        bonoResultado = _bonoResultado
+    }
 
     method bonoPresentismo(_bonoPresentismo) {
         bonoPresentismo = _bonoPresentismo
@@ -29,14 +27,12 @@ object pepe {
         return faltas
     }
 
-
     method sueldo() {
-        return self.neto() + self.extraResultado() + self.extraPresentismo() 
+        return self.neto()  + self.extraResultado() + self.extraPresentismo() 
     }
 
-
     method neto() {
-        // Este tipo de if (pregunta QUIEN es el objeto) hay que reemplazarlos por polimorfismo
+         // Este tipo de if (pregunta QUIEN es el objeto) hay que reemplazarlos por polimorfismo
         // if (categoria == gerente) {
         //     return 150000
         // }
@@ -59,39 +55,22 @@ object pepe {
     method extraPresentismo() {
         return bonoPresentismo.valor(self)
     }
+}    
 
-}
-
-
-object consultor {
-
-    var neto = 30000
-
-    method neto() {
-        return neto
-    }
-
-    method aumentar(aumento) {
-        neto = neto + aumento
-    } 
-
-
-}
-
-object cadete { 
+// categorias
+object cadete {
     method neto() {
         return 20000
     }
-
 }
+
 object gerente {
     method neto() {
         return 15000
     }
 }
 
-//bonos de resultado
-
+// bonos de resultado
 
 object fijo {
     method valor(empleado) {
@@ -107,12 +86,11 @@ object resultadoNulo {
 
 object porcentaje {
     
-    method valor(empleado) { //Las opciones son: pasar el empleado, la categoría o el neto, la mejor es el empleado porque defino que un bono es algo que se aplica a un empleado.
+    method valor(empleado) { // Las opciones son pasar: el empleado, la categoria o el neto. La mejor es el empeado porque defino que el bono es algo que se aplica a un empleado. 
         return empleado.neto() * 0.1
     }
-}  
-
-//bonos presentismo
+}
+// bonos presentismo
 object presentismoNulo {
     method valor(empleado) {
         return 0
@@ -120,28 +98,28 @@ object presentismoNulo {
 }
 
 object normal {
-
+    //method valor(faltas) { Estos ifs no están mal porque no tengo una solución mejor, es polimórfica. Pero se puede cambiar por una formulita haciéndolo más simple. 
+    //    if (faltas == 0) {
+    //        return 2000
+    //    }
+    //    if (faltas == 1) {
+    //        return 1000
+    //    }
+    //    return 0
+    //}
     method valor(empleado) {
-        // if (faltas == 0) { //Estos ifs no estan mal porque no tengo una solucio polimórifca mejor. Pero se puede cambiar por una formulita haciendolo más simple
-        //     return 2000
-        // }
-        // if (faltas == 1) {
-        //     return 1000
-        // }
-        // return 0
-        return (2000 - empleado.faltas() * 1000).max(0) //formulita más linda
+        return (2000 - empleado.faltas() * 1000).max(0) // formulita más linda
     }
-} 
+}
 
 object ajuste {
     method valor(empleado) {
-        return if (empleado.faltas() == 0) 100 else 0 //usando el if como una expresion (operador ternario, funcion ifelse de intro)
-        // if (faltas == 0) -> usanto el If como una estructura de control
-        //    return 100
+       return if (empleado.faltas() == 0) 100 else 0 // Usando el if como una expresión (operador ternario, funcion if else de intro) 
+        // if (faltas = 0) -> Usando el if como estructura de control
+        //  return 100 
         //else
-        //    return 0
+        //  return 0
     }
-
 }
 
 object demagogico {
