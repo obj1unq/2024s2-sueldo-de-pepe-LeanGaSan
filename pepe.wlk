@@ -1,228 +1,243 @@
+
+
 object pepe {
     
     var categoria = cadete
-    var bonoResultado = resultadoNulo
-    var bonoPresentismo = presentismoNulo
+    var bonoResultado = porcentaje
+    var bonoPresentismo = normal
     var faltas = 0
-    //var neto -> esta variable está mal, es para precalcular!
 
-    method categoria(_categoria) {
-        categoria = _categoria
-        // neto = _categoria() -> Esto es precálculo.  
+    method faltas(_faltas){
+        faltas = _faltas
     }
 
-    method bonoResultado(_bonoResultado) {
+    method categoria(_categoria){
+        categoria = _categoria
+    }
+
+    method bonoResultado(_bonoResultado){
         bonoResultado = _bonoResultado
     }
 
-    method bonoPresentismo(_bonoPresentismo) {
-        bonoPresentismo = _bonoPresentismo
-    }
-
-    method faltas(_faltas) {
-        faltas = _faltas
+    method bonoPresentismo(_bonoPresentismo){
+        bonoPresentismo = _bonoPresentismo 
     }
 
     method faltas() {
         return faltas
-    }
+    } 
 
     method sueldo() {
-        return self.neto()  + self.extraResultado() + self.extraPresentismo() 
+        return self.neto() + self.bonoResultado() + self.bonoPresentismo()
     }
 
     method neto() {
-         // Este tipo de if (pregunta QUIEN es el objeto) hay que reemplazarlos por polimorfismo
-        // if (categoria == gerente) {
-        //     return 150000
-        // }
-        // if (categoria == cadete) {
-        //     return 200000
-        // }
-        // return 0 //solucion de compromiso
-        
-
-       // return neto -> Esta es la solución de precálculo (precalculé el neto cuando me pasaron la categoría. Está mal! pudo variar)
-
-        //Esta es la solucion polimorfica! la que va!
-        return categoria.neto()
+        return categoria.gananciaNeto()
     }
 
-    method extraResultado() {
+    method bonoResultado() {
         return bonoResultado.valor(self)
     }
 
-    method extraPresentismo() {
+    method bonoPresentismo() {
         return bonoPresentismo.valor(self)
     }
-}    
 
-// categorias
-object cadete {
-    method neto() {
-        return 20000
-    }
 }
 
-object gerente {
-    method neto() {
-        return 15000
-    }
-}
-
-// bonos de resultado
-
-object fijo {
-    method valor(empleado) {
-        return 800
-    }
-}
-
-object resultadoNulo {
-    method valor(empleado) {
-        return 0
-    }
-}
-
-object porcentaje {
-    
-    method valor(empleado) { // Las opciones son pasar: el empleado, la categoria o el neto. La mejor es el empeado porque defino que el bono es algo que se aplica a un empleado. 
-        return empleado.neto() * 0.1
-    }
-}
-// bonos presentismo
-object presentismoNulo {
-    method valor(empleado) {
-        return 0
-    }
-}
-
+// TIPOS DE BONOS POR PRESENTISMO
 object normal {
-    //method valor(faltas) { Estos ifs no están mal porque no tengo una solución mejor, es polimórfica. Pero se puede cambiar por una formulita haciéndolo más simple. 
-    //    if (faltas == 0) {
-    //        return 2000
-    //    }
-    //    if (faltas == 1) {
-    //        return 1000
-    //    }
-    //    return 0
-    //}
+    
     method valor(empleado) {
-        return (2000 - empleado.faltas() * 1000).max(0) // formulita más linda
+        return 2000 - self.valorAgregado(empleado)
     }
+
+    method valorAgregado(empleado) {
+        return (empleado.faltas() * 1000).min(2000)
+    }
+
 }
 
 object ajuste {
+  
     method valor(empleado) {
-       return if (empleado.faltas() == 0) 100 else 0 // Usando el if como una expresión (operador ternario, funcion if else de intro) 
-        // if (faltas = 0) -> Usando el if como estructura de control
-        //  return 100 
-        //else
-        //  return 0
+        return if (empleado.faltas() == 0) 100 else 0 
     }
+
 }
 
 object demagogico {
+  
     method valor(empleado) {
-        return if (empleado.neto() < 18000) 500 else 300
+        return if (empleado.neto() < 18000 ) 500 else 300
     }
+
 }
 
-//BONUS 
+// TIPOS DE BONOS POR RESULTADOS
+object porcentaje {
+
+    method valor(empelado) {
+        return empelado.neto() * 10 / 100 // == empleado.neto() * 0.1
+    }
+
+}
+
+object montoFijo {
+    
+    method valor(empleado) {
+        return 800
+    }
+
+}
+
+
+// SIRVE PARA LOS DOS BONOS
+object nulo {
+  
+    method valor(empleado) {
+        return 0
+    }
+    
+}
+
+// CATEGORÍAS
+object gerente {
+
+    method gananciaNeto() {
+        return 15000
+    }
+
+}
+
+object cadete {
+    
+    method gananciaNeto() {
+        return 20000
+    } 
+
+}
+// VARIANTES:
+/* 1. Definir a Sofía, otra persona de la que hay que calcular el sueldo. Sofía solamente tiene bono por resultados, o sea que su sueldo se calcula como neto + bono x resultados.
+A su vez, su neto es un 30% superior a lo que indica su categoría. P.ej. si Sofía es cadete, su neto es 26000. Recordar que para aumentar un número un 30%, se lo multiplica por 1.3.
+Atención: si Pepe, o cualquier otra persona que se agregue, es cadete, su neto es 20000. El incremento del 30% se aplica solamente a Sofía. */
 object sofia {
+    
+    var bonoResultado = nulo
     var categoria = cadete
-    var bonoResultado = resultadoNulo
-    var bonoPresentismo = presentismoNulo
-    var faltas = 0
 
     method categoria(_categoria) {
-        categoria = _categoria
+      categoria = _categoria
     }
 
     method bonoResultado(_bonoResultado) {
         bonoResultado = _bonoResultado
     }
 
-    method bonoPresentismo(_bonoPresentismo) {
-        bonoPresentismo = _bonoPresentismo
-    }
-
-    method faltas(_faltas) {
-        faltas = _faltas
-    }
-
-    method faltas() {
-        return faltas
-    }
-
     method sueldo() {
-        return self.neto() * 1.3 + self.extraResultado() + self.extraPresentismo() 
+        return self.neto() + self.bonoResultado()
     }
 
     method neto() {
-        return categoria.neto()
+        return categoria.neto() * 1.3
     }
 
-    method extraResultado() {
+    method bonoResultado() {
         return bonoResultado.valor(self)
     }
 
-    method extraPresentismo() {
-        return bonoPresentismo.valor(self)
-    }
 }
 
+/* 2. Agregar las siguientes categorías
+
+- vendedor:
+su neto es de 16000 pesos. Si hay muchas ventas, hay un aumento de 25% (multiplicar por 1.25), o sea pasa a 20000.
+El objeto que representa a esta categoría tiene que entender los mensajes activarAumentoPorMuchasVentas() y desactivarAumentoPorMuchasVentas().
+
+- medio tiempo: en realidad, es un modificador sobre otra categoría, que se asigna enviando el mensaje medioTiempo.categoriaBase(categoria). Indica que la persona trabaja medio tiempo, por lo tanto su neto es la mitad (dividir por dos) de lo que indica la categoría base.
+P.ej. si definimos medioTiempo.categoriaBase(gerente), entonces el neto de medioTiempo es 7500 (la mitad de 15000).
+*/
 object vendedor {
-    method neto() {
-        return 16000
+    
+    var property valorAgregado = self.activarAumentoPorMuchasVentas()
+
+    method gananciaNeto() {
+        return 16000 * valorAgregado 
     }
+    
+    method activarAumentoPorMuchasVentas() {
+        return 1.25
+    }
+
+    method desactivarAumentoPorMuchasVentas() {
+        return 1
+    }
+
 }
 
 object medioTiempo {
-    method categoriaBase(categoria) {
-        return categoria.neto() / 2
+
+    var categoria = cadete
+
+    method categoriaBase(_categoria) {
+        categoria = _categoria
     }
+
+    method gananciaNeto() {
+        return categoria.gananciaNeto() / 2
+    }
+
 }
 
-object roque {
-    const neto = 28000
-    var bonoResultado = resultadoNulo
+/* 3. Agregar dos personas más, según lo que se detalla a continuación.
 
-	method bonoResultado(_bonoResultado) {
+Roque, que en lugar de asignársele una categoría, se establece un neto de 28000 �pesos.
+El sueldo se calcula como neto + bono por resultados + 9000 pesos.
+Para el bono por resultados, se usan las mismas opciones que para Pepe.
+
+Ernesto, que trabaja junto con un compañero, que puede cambiar. El neto de Ernesto es igual al de su compañero.
+Su sueldo se calcula como neto + bono por presentismo.
+Para el bono por presentismo, usar las mismas opciones que para Pepe. Se sabe que Ernesto no falta nunca. */
+
+object roque {
+  
+    const property neto = 28000
+    var bonoResultado = nulo
+
+    method sueldo() {
+        return neto + self.bonoResultado() + 9000
+    }
+
+    method bonoResultado() {
+        return bonoResultado.valor(self)
+    }
+
+    method bonoResultado(_bonoResultado){
         bonoResultado = _bonoResultado
     }
 
-    method sueldo() {
-        return neto + self.extraResultado() + 9000
-    }
-
-    method extraResultado() {
-        return bonoResultado.valor(self)
-    }
 }
 
 object ernesto {
-    var companiero = pepe
-    var bonoPresentismo = presentismoNulo
+    
+    var property companiero = pepe
+    var bonoPresentismo = nulo
     const property faltas = 0
 
-    method companiero(_companiero) {
-        companiero = _companiero
-    }
-
     method neto() {
-      return companiero.neto()
+        return companiero.neto()
     }
 
     method sueldo() {
-        return self.neto() + self.extraPresentismo()
+        return self.neto() + self.bonoPresentismo()
     }
 
-    method bonoPresentismo(_bonoPresentismo) {
-        bonoPresentismo = _bonoPresentismo
+    method bonoPresentismo(_bonoPresentismo){
+        bonoPresentismo = _bonoPresentismo 
     }
 
-    method extraPresentismo() {
+    method bonoPresentismo() {
         return bonoPresentismo.valor(self)
-    }
+    }    
+
 }
