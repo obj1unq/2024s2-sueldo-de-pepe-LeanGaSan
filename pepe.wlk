@@ -1,10 +1,9 @@
 
-
 object pepe {
     
     var categoria = cadete
-    var bonoResultado = porcentaje
-    var bonoPresentismo = normal
+    var bonoResultado = nulo
+    var bonoPresentismo = nulo
     var faltas = 0
 
     method faltas(_faltas){
@@ -139,7 +138,7 @@ object sofia {
     }
 
     method neto() {
-        return categoria.neto() * 1.3
+        return categoria.gananciaNeto() * 1.3
     }
 
     method bonoResultado() {
@@ -159,18 +158,20 @@ P.ej. si definimos medioTiempo.categoriaBase(gerente), entonces el neto de medio
 */
 object vendedor {
     
-    var property valorAgregado = self.activarAumentoPorMuchasVentas()
+    var property muchasVentas = true
+    const netoBase = 16000
+
 
     method gananciaNeto() {
-        return 16000 * valorAgregado 
+        return if (muchasVentas) netoBase * 1.25 else netoBase  
     }
     
     method activarAumentoPorMuchasVentas() {
-        return 1.25
+        muchasVentas = true
     }
 
     method desactivarAumentoPorMuchasVentas() {
-        return 1
+        muchasVentas = false
     }
 
 }
