@@ -4,8 +4,7 @@ import clases.clase3.ElSuedoDePepe.*
 describe "Batería de test" {
 
     test "Pepe como cadete, con bono resultado de monto fijo, y bono presentismo normal." {
-        /* Hacer un test con pepe como cadete, con bono resultado de monto fijo, y bono presentismo normal. 
-	Simular que faltó 3 días. Debería tener $20800 de sueldo.
+        /* Hacer un test con pepe como cadete, con bono resultado de monto fijo, y bono presentismo normal. Simular que faltó 3 días. Debería tener $20800 de sueldo.
         */
         pepe.categoria(cadete)
         pepe.bonoResultado(montoFijo)
@@ -87,8 +86,7 @@ describe "Batería de test" {
 	}
 
     test "Pepe como gerente, con el bono resultado por porcentaje, y bono de presentismo nulo." {
-        /* Hacer un test con pepe como gerente, con el bono resultado por porcentaje, y bono de presentismo nulo. 
-	El sueldo debe dar $16500.
+        /* Hacer un test con pepe como gerente, con el bono resultado por porcentaje, y bono de presentismo nulo. El sueldo debe dar $16500.
         */
         pepe.categoria(gerente)
         pepe.bonoResultado(porcentaje)
@@ -99,26 +97,24 @@ describe "Batería de test" {
     }
 
     test "Pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, nunca faltó." {
-        /* Realizar un test con pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, nunca faltó. 
-	Debería tener $24000 de sueldo.
+        /* Realizar un test con pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, nunca faltó. Debería tener $24000 de sueldo.
         */
         pepe.categoria(cadete)
         pepe.bonoResultado(porcentaje)
         pepe.bonoPresentismo(normal)
-        pepe.faltas(3)
+        pepe.faltas(0)
 
         assert.equals(24000, pepe.sueldo())
 
     }
 
     test "Pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, falto 1 día." {
-        /* Realizar un test con pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, falto 1 día. 
-	Debería tener $23000 de sueldo.
+        /* Realizar un test con pepe cadete con bono de resultados por porcentaje, bono por presentismo normal, falto 1 día. Debería tener $23000 de sueldo.
         */
         pepe.categoria(cadete)
         pepe.bonoResultado(porcentaje)
         pepe.bonoPresentismo(normal)
-        pepe.faltas(3)
+        pepe.faltas(1)
 
         assert.equals(23000, pepe.sueldo())
 
@@ -128,6 +124,30 @@ describe "Batería de test" {
 
 //BONUS 
 describe "Bonus" {
+
+    test "Sofia como cadete" {
+        sofia.categoria(cadete)
+
+        assert.equals(26000, sofia.neto())
+    }
+
+    test "Sofia y Pepe como vendedores con muchas ventas" {
+        sofia.categoria(vendedor)
+        pepe.categoria(vendedor)
+        vendedor.activarAumentoPorMuchasVentas()
+
+        assert.equals(16000 * 1.25 * 1.3, sofia.sueldo())
+        assert.equals(16000 * 1.25, pepe.sueldo())
+    }
+
+    test "Sofia es gerente a medio tiempo" {
+        sofia.categoria(medioTiempo)
+        medioTiempo.categoriaBase(gerente)
+
+        assert.equals(15000 / 2 * 1.3, sofia.sueldo())
+    }
+    
+
     test "1. La categoria base de medio tiempo es cadete" {
 
         medioTiempo.categoriaBase(cadete)
